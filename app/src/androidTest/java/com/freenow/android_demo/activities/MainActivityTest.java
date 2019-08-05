@@ -3,8 +3,6 @@ package com.freenow.android_demo.activities;
 import android.app.Activity;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.WindowManager;
-
 import androidx.test.espresso.Root;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
@@ -15,30 +13,24 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
-
 import com.freenow.android_demo.R;
 import com.freenow.android_demo.models.Driver;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import java.util.Collection;
-
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -47,6 +39,7 @@ import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MainActivityTest {
 
     private  final String userName= "crazydog335";
@@ -65,38 +58,26 @@ public class MainActivityTest {
     //Login in to Free Now
     @Test
     public void Test_01loginFreeNow() {
+        Log.e("@Test_logs","Performing login");
         edtUsernameView
                 .perform(typeText(userName), closeSoftKeyboard()); //Enter username
+        Log.e("@Test_logs","username is entered");
         edtPasswordView
                 .perform(typeText(password), closeSoftKeyboard()); //Enter password
+        Log.e("@Test_logs","password is entered");
         clickLoginBtn.perform(click()); //Click on login button
+        Log.e("@Test_logs","Login button is clicked");
     }
-
-//    @Test
-//    public void failureLogin() throws InterruptedException {
-//        edtUsernameView
-//                .perform(typeText(incorrectUsername));
-//        edtPasswordView
-//                .perform(typeText(incorrectPassword));
-//        clickLoginBtn.perform(click());
-//        Thread.sleep(2500);
-//        onView(withText("Login failed")).inRoot(new ToastMatcher())
-//                .check(matches(isDisplayed()));
-//        edtUsernameView.perform(clearText());
-//        edtPasswordView.perform(clearText());
-//
-//    }
-    // Enter text in search field
+    // Calling Driver
     @Test
-    public void Test_02clickDriverName()  {
+    public void Test_02callDriver()  {
+        Log.e("@Test_logs","Search string entered");
         onView(withId(R.id.textSearch))
                 .perform(typeText(searchField), closeSoftKeyboard()); //Enter sa in search field
         checkAdapterItem();//Fetching element of adapterview and click on driver by name
-    }
-    // Call driver
-    @Test
-    public void Test_03callDriver() {
+        Log.e("@Test_logs","Desired driver is selected");
         onView(withId(R.id.fab)).perform(click()); //Click on call button
+        Log.e("@Test_logs","call button clicked");
     }
     // Click on the Adapter Item, Driver Named 'Sarah Scott'
     public void checkAdapterItem() {
@@ -154,5 +135,19 @@ public class MainActivityTest {
         public void describeTo(org.hamcrest.Description description) {
         }
     }
+    //    @Test
+//    public void failureLogin() throws InterruptedException {
+//        edtUsernameView
+//                .perform(typeText(incorrectUsername));
+//        edtPasswordView
+//                .perform(typeText(incorrectPassword));
+//        clickLoginBtn.perform(click());
+//        Thread.sleep(2500);
+//        onView(withText("Login failed")).inRoot(new ToastMatcher())
+//                .check(matches(isDisplayed()));
+//        edtUsernameView.perform(clearText());
+//        edtPasswordView.perform(clearText());
 //
+//    }
+
 }
